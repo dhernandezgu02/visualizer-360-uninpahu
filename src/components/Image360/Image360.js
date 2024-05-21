@@ -1,66 +1,40 @@
-import { createRef } from "react";
-import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
-import { MarkersPlugin } from "@photo-sphere-viewer/markers-plugin";
-import "@photo-sphere-viewer/markers-plugin/index.css";
-// import testImage from "../../assets/nodes/sede-frente-principal.jpeg";
-import pinRed from "../../assets/pin-red.png";
+import { createRef } from 'react';
+import { ReactPhotoSphereViewer } from 'react-photo-sphere-viewer';
+import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
+import '@photo-sphere-viewer/markers-plugin/index.css';
+import pinRed from '../../assets/pin-red.png';
 
-const Image360 = ({ src }) => {
+const getMarker = ({ x, y, label, nodeIndex }) => ({
+  id: `${nodeIndex}`,
+  position: { yaw: `${x}deg`, pitch: `${y}deg` },
+  image: pinRed,
+  anchor: 'bottom center',
+  size: { width: 32, height: 32 },
+  tooltip: `<b>${label}</b>`
+});
+
+const Image360 = ({ initSrc, initMarkers, nodes }) => {
   const pSRef = createRef();
 
-  const readyHandler = (instance) => {
+  const readyHandler = instance => {
     const markersPlugs = instance.getPlugin(MarkersPlugin);
     if (!markersPlugs) return;
-    console.log(markersPlugs);
-    markersPlugs.addEventListener("select-marker", () => {
-      console.log("asd");
+    markersPlugs.addEventListener('select-marker', markerData => {
+      const nextNode = nodes[+markerData.marker.config.id];
+      pSRef.current.setPanorama(nextNode.imageUrl, { transition: false });
+      if (nextNode.markers) {
+        markersPlugs.setMarkers(nextNode.markers.map(getMarker));
+      } else {
+        markersPlugs.clearMarkers();
+      }
     });
   };
 
-  const clickHandler = () => {};
-
-  const plugins = [
-    [
-      MarkersPlugin,
-      {
-        // list of markers
-        markers: [
-          {
-            // image marker that opens the panel when clicked
-            id: "image",
-            position: { yaw: "0.33deg", pitch: "0.1deg" },
-            image: pinRed,
-            anchor: "bottom center",
-            size: { width: 32, height: 32 },
-            tooltip: "Mountain peak. <b>Click me!</b>",
-          },
-          {
-            // image marker rendered in the 3D scene
-            id: "imageLayer",
-            position: { yaw: "13.5deg", pitch: "-0.1deg" },
-            image: pinRed,
-            anchor: "bottom center",
-            size: { width: 220, height: 220 },
-            tooltip: "Image embedded in the scene",
-          },
-        ],
-      },
-    ],
-  ];
+  const plugins = [[MarkersPlugin, { markers: initMarkers.map(getMarker) }]];
 
   return (
-    <div className="App">
-      <ReactPhotoSphereViewer
-        ref={pSRef}
-        src={src}
-        // src="../../assets/sede-frente-principal.jpeg"
-        height="500px"
-        width="500px"
-        // littlePlanet={false}
-        onClick={clickHandler}
-        onReady={readyHandler}
-        plugins={plugins}
-      ></ReactPhotoSphereViewer>
+    <div className='App'>
+      <ReactPhotoSphereViewer src={initSrc} plugins={plugins} ref={pSRef} height='500px' width='500px' onReady={readyHandler} />
     </div>
   );
 };
