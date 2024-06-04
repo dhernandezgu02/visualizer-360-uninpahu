@@ -1,13 +1,13 @@
-import sede23 from "../assets/nodes/sede-frente-principal.jpeg";
-import sedeAdministrativa from "../assets/nodes/sede-administrativa.jpeg";
-import sedePrincipal from "../assets/nodes/sede-principal.jpeg";
-import carrera1640a from "../assets/nodes/carrera-16-40a.jpeg";
+import OTHER_BUILDING_MAIN_ENTRANCE from "../assets/nodes/OTHER_BUILDING_MAIN_ENTRANCE.jpeg";
+import ADMINISTRATIVE_BUILDING_MAIN_ENTRANCE from "../assets/nodes/ADMINISTRATIVE_BUILDING_MAIN_ENTRANCE.jpeg";
+import MAIN_BUILDING_MAIN_ENTRANCE from "../assets/nodes/MAIN_BUILDING_MAIN_ENTRANCE.jpeg";
+import STREETS_CARRERA_16_40A from "../assets/nodes/STREETS_CARRERA_16_40A.jpeg";
 
 const images = {
-  "sede-frente-principal": sede23,
-  "sede-administrativa": sedeAdministrativa,
-  "sede-principal": sedePrincipal,
-  "carrera-16-40a": carrera1640a,
+  OTHER_BUILDING_MAIN_ENTRANCE: OTHER_BUILDING_MAIN_ENTRANCE,
+  ADMINISTRATIVE_BUILDING_MAIN_ENTRANCE: ADMINISTRATIVE_BUILDING_MAIN_ENTRANCE,
+  MAIN_BUILDING_MAIN_ENTRANCE: MAIN_BUILDING_MAIN_ENTRANCE,
+  STREETS_CARRERA_16_40A: STREETS_CARRERA_16_40A,
 };
 
 export default images;
